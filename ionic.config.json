@@ -1,0 +1,7 @@
+{
+  "name": "Foodex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
