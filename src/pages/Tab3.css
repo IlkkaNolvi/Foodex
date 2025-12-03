@@ -1,0 +1,119 @@
+.planner-header {
+  background: #fff;
+  padding-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.planner-title {
+  padding: 20px 20px 10px;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+}
+
+
+.calendar-strip {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  overflow-x: auto;
+}
+
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 65px;
+  border-radius: 25px; /* Pillerin muoto */
+  background: #f4f4f4;
+  color: #888;
+  transition: all 0.2s ease;
+}
+
+.calendar-day.active {
+  background: var(--ion-color-primary); /* Vihreä */
+  color: #000;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.day-name {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.day-number {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+.meal-section {
+  padding: 20px;
+}
+
+.section-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.add-btn {
+  font-size: 14px;
+  color: var(--ion-color-primary); /* Teksti vihreäksi */
+  background: none;
+  border: none;
+  font-weight: bold;
+}
+
+
+.meal-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 5px solid var(--ion-color-primary);
+}
+
+.meal-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.meal-info p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.empty-slot {
+  border: 2px dashed #ddd;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+}
+
+
+.daily-summary {
+  margin: 20px;
+  padding: 15px;
+  background: #333;
+  color: #fff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}

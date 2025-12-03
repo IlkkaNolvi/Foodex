@@ -1,2 +1,12 @@
 /* For information on how to create your own theme, please refer to:
 http://ionicframework.com/docs/theming/ */
+
+:root {
+  /** primary color - Foodex Green (#C0EBA6) */
+  --ion-color-primary: #C0EBA6;
+  --ion-color-primary-rgb: 192, 235, 166;
+  --ion-color-primary-contrast: #000000; /* Black text on green background */
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #a9cf92;
+  --ion-color-primary-tint: #c6edaf;
+}

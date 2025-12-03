@@ -1,0 +1,93 @@
+/* Header-area */
+.search-header {
+  padding: 10px 16px 0;
+  background: #fff;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+/* Filters (Chips) - Horizontal scrolling */
+.filter-container {
+  display: flex;
+  overflow-x: auto; /* Allows lateral scrolling */
+  white-space: nowrap;
+  padding: 0 16px 10px;
+  /* Hide the scrollbar visually but retain functionality */
+  scrollbar-width: none; /* Firefox */
+}
+
+.filter-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.filter-chip {
+  margin-right: 8px;
+  --background: #f0f0f0;
+  --color: #000;
+  font-weight: 500;
+  
+  
+  min-width: auto; 
+  padding-left: 12px;
+  padding-right: 12px;
+  height: 32px;
+}
+
+/* When the filter is selected (active) */
+.filter-chip.active {
+  --background: var(--ion-color-primary); /* Foodex Green */
+  --color: #000;
+}
+
+/* Recipe-cards */
+.recipe-card {
+  margin: 16px;
+  border-radius: 16px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.recipe-image {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.card-content {
+  padding: 16px;
+}
+
+.recipe-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.recipe-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+
+.empty-state {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  color: #888;
+}

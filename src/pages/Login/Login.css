@@ -1,0 +1,73 @@
+.auth-content {
+  /* Centers content vertically and horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+  --background: #ffffff; /* Ensure white background as per design */
+}
+
+.logo-container {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.logo-img {
+  max-width: 200px;
+  height: auto;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Styling for the rounded input fields based on prototype */
+.custom-input {
+  --background: #ffffff;
+  --color: #000000;
+  --placeholder-color: #666666;
+  --border-color: #000000;
+  --border-radius: 25px; /* Heavily rounded corners */
+  --border-width: 1px;
+  --border-style: solid;
+  margin-bottom: 15px;
+  /* Internal padding for text */
+  --padding-start: 15px;
+  --padding-end: 15px;
+}
+
+/* Styling for the main action button (Foodex Green) */
+.login-button {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  --border-radius: 25px;
+  font-weight: bold;
+  height: 50px;
+  /* Color comes from --ion-color-primary in variables.css */
+}
+
+.helper-text {
+  text-align: center;
+  font-size: 14px;
+  color: #666666;
+}
+
+.link-text {
+  color: var(--ion-color-primary); /* Use brand color for links */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.skip-link {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    color: #666666;
+    text-decoration: none;
+}
