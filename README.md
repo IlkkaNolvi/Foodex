@@ -1,119 +1,123 @@
-Foodex 🥑
+# Foodex 🥑
 
 Foodex is a modern mobile application for recipe discovery, meal planning, and calorie tracking. The application was built as a student project using the Ionic React development platform.
 
-📱 Features
+---
 
-The application consists of five main sections:
+## 📱 Features
 
-Authentication (Login & Signup)
+The application consists of several main sections and sub-features:
 
-User account creation and login (Firebase Auth).
+### Authentication (Login & Signup)
+- User account creation and login (Firebase Auth).
+- Email-based authentication.
 
-Email-based authentication.
+### Home (Home / Tab 1)
+- **Greeting & Weather:** Fetches current weather based on user location (Open-Meteo API).
+- **Calorie Tracker:** Visual ring chart showing daily calorie intake versus goal. Updates in real-time based on the Meal Planner.
+- **Recommendations:** Carousel of recipe recommendations fetched from TheMealDB.
 
-Home (Home / Tab 1)
+### Recipe Search (Search / Tab 2)
+- **Search:** Find recipes by keywords (TheMealDB API).
+- **Filters:** Filter results by category (e.g., Vegan, Breakfast, Chicken, Pasta).
+- **Recipe Cards:** Displays recipe image and estimated preparation time.
 
-Greeting & Weather: Fetches current weather based on user location (Open-Meteo API).
+### Recipe Details (Recipe Detail)
+- Detailed view including ingredients and cooking instructions.
+- **Add to Plan:** Interactive modal to add the recipe to a specific day and meal slot (Breakfast/Lunch/Dinner).
+- **Find Stores:** Deep link integration to open the user's map application and find nearby grocery stores.
+- **Favorites:** One-click save to "My Favorites".
 
-Calorie Tracker: Visual ring chart showing daily calorie intake versus goal. Updates in real-time from the Planner.
+### Meal Planner (Planner / Tab 3)
+- **Calendar:** Dynamic 7-day calendar view (Today + next 6 days).
+- **Meals:** Displays planned meals for the selected day.
+- **Management:** Ability to remove meals from the plan.
+- **Persistence:** Data is saved locally (`localStorage`), so plans remain after closing the app.
 
-Recommendations: Carousel of random recipe recommendations.
+### Profile & Settings (Profile)
+- **User Info:** Displays logged-in user email and display name.
+- **Weekly Chart:** Visual bar chart showing calorie progress for the next 7 days.
+- **Sub-pages:**
+  - **Edit Profile:** Update display name and daily calorie goal.
+  - **My Favorites:** List of saved recipes for quick access.
+  - **About:** Information about the project and team.
+  - **Contact:** Support form simulation.
+- **Logout:** Securely signs out from Firebase.
 
-Recipe Search (Search / Tab 2)
+---
 
-Search: Find recipes by keywords (Spoonacular API).
+## 🛠️ Technologies
 
-Filters: Filter results (e.g., Vegan, Quick, Breakfast, Low Calorie).
+- **Frontend:** Ionic Framework, React, TypeScript
+- **Backend / Auth:** Google Firebase (Authentication)
+- **Data API:** TheMealDB (Recipes), Open-Meteo (Weather)
+- **Storage:** LocalStorage (Meal plans & Settings)
 
-Recipe Cards: Displays image, preparation time, and servings.
+---
 
-Recipe Details (Recipe Detail)
-
-Detailed view: Ingredients, instructions, and nutritional info.
-
-Add to Plan: Ability to add the recipe directly to the meal planner for a specific day and meal slot (Breakfast/Lunch/Dinner).
-
-Meal Planner (Planner / Tab 3)
-
-Calendar: Dynamic 7-day calendar view.
-
-Meals: Displays meals for the selected day along with calculated calories.
-
-Editing: Ability to remove meals from the plan.
-
-Data persists in local storage (localStorage).
-
-Profile (Profile)
-
-Displays logged-in user information.
-
-Weekly calorie summary (Visualization).
-
-Logout functionality.
-
-🛠️ Technologies
-
-Frontend: Ionic Framework, React, TypeScript
-
-Backend / Auth: Google Firebase (Authentication)
-
-Data API: Spoonacular API (Recipes), Open-Meteo (Weather)
-
-Storage: LocalStorage (Meal plans)
-
-🚀 Installation and Setup
+## 🚀 Installation and Setup
 
 Follow these steps to get the project running on your local machine.
 
-Prerequisites
+### Prerequisites
+- Node.js installed.
+- Ionic CLI installed (`npm install -g @ionic/cli`).
 
-Node.js installed.
+### Installation
 
-Ionic CLI installed (npm install -g @ionic/cli).
+1. Clone the repository:
+   git clone [https://github.com/IlkkaNolvi/Foodex.git](https://github.com/IlkkaNolvi/Foodex.git)
+   cd Foodex
 
-Installation
+2. Install dependencies:
+    npm install
 
-Clone the repository:
+3. Configuration:
+- The project uses Firebase for authentication. Ensure src/firebaseConfig.ts contains valid credentials.
+- TheMealDB and Open-Meteo are free APIs and do not require private keys for this implementation.
 
-git clone [https://github.com/IlkkaNolvi/Foodex.git](https://github.com/IlkkaNolvi/Foodex.git)
-cd Foodex
-
-
-Install dependencies:
-
-npm install
-
-
-IMPORTANT: API Keys
-
-The project uses API keys in src/firebaseConfig.ts and src/services/recipeService.ts.
-
-Ensure you have valid keys (Spoonacular API Key & Firebase Config). If they are missing from the repository for security reasons, ask the project maintainer.
-
-Run the application:
-
-ionic serve
-
-
+4. Run the application:
+    ionic serve
 The app will open at http://localhost:8100.
 
-📂 Project Structure
+---
 
-src/pages/ - Application views (Login, Signup, Tab1, Tab2, Tab3, RecipeDetail, Profile).
+##📂 Project Structure
+src/pages/
 
-src/services/ - API calls and logic (recipeService, plannerService).
+- Login/, Signup/ - Authentication
 
-src/interfaces/ - TypeScript data types.
+- Tab1/ - Home Dashboard
 
-src/theme/ - Global styles and colors.
+- Tab2/ - Search Logic
 
-👥 Contributors
+- Tab3/ - Meal Planner
 
-[Tomi Haukka] - UI/UX Design & Frontend
+- RecipeDetail/ - Single Recipe View
 
-[Ilkka Nolvi] - API Integration & Logic
+- Profile/ - Profile Main View
 
-[Jaakko Teittinen] - Testing & Documentation
+- Favorites/ - Saved Recipes
 
-This project was created as part of the Introduction to Mobile App Design and Development course in 2025.
+- EditProfile/ - User Settings
+
+- About/, Contact/ - Info Pages
+
+- src/services/ - recipeService, plannerService, favoritesService
+
+- src/interfaces/ - TypeScript data models
+
+- src/theme/ - Global styles and variables
+
+---
+
+## 👥 Contributors
+Tomi Haukka - UI/UX Design & Frontend
+
+Ilkka Nolvi - API Integration & Logic
+
+Jaakko Teittinen - Testing & Documentation
+
+---
+
+_This project was created as part of the Introduction to Mobile App Design and Development course in 2025._

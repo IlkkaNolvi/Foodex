@@ -1,96 +1,107 @@
-import { Recipe } from '../interfaces/recipe';
+import { Recipe, Ingredient } from '../interfaces/recipe';
 
-// --- DEFINE TYPES FOR API RESPONSES ---
-
-// Represents a single search result item in Spoonacular's "results" list
-interface ApiSearchResultItem {
-  id: number;
-  title: string;
-  image: string;
-  readyInMinutes: number;
-  servings: number;
+// Define interface for TheMealDB API response items used in search
+interface ApiMealItem {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
 }
 
-// Represents a single ingredient in Spoonacular's response
-interface ApiIngredientItem {
-  id: number;
-  original: string;
-  name: string;
-  amount: number;
-  unit: string;
-}
+// KÄYTETÄÄN THEMEALDB APIA (Täysin ilmainen, testiavain '1')
+const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
 
-// ----------------------------------------------
+// Apufunktiot satunnaisdatalle (koska API ei tarjoa valmistusaikaa tai annoskokoa)
+const getRandomTime = () => [15, 30, 45, 60][Math.floor(Math.random() * 4)];
+const getRandomServings = () => [2, 4][Math.floor(Math.random() * 2)];
 
-// 🔴 REPLACE THIS WITH YOUR OWN SPOONACULAR API KEY 🔴
-const API_KEY = '09fb77be046441b79f278844e40a436a'; 
-const BASE_URL = 'https://api.spoonacular.com/recipes';
-
-// Search Function
+// Haku-funktio
 export const searchRecipes = async (query: string, filter?: string): Promise<Recipe[]> => {
-  if (!query && !filter) return [];
+  let url = '';
 
-  // 1. Build dynamic URL
-  let apiUrl = `${BASE_URL}/complexSearch?apiKey=${API_KEY}&number=10&addRecipeInformation=true`;
-  
-  if (query) apiUrl += `&query=${query}`;
-  
-  // Add filters to URL
-  if (filter === 'Vegan') apiUrl += '&diet=vegan';
-  if (filter === 'Quick (< 30m)') apiUrl += '&maxReadyTime=30';
-  if (filter === 'Low Calorie') apiUrl += '&maxCalories=400';
-  if (filter === 'Breakfast') apiUrl += '&type=breakfast';
+  if (query) {
+      // KORJAUS: TheMealDB ei löydä mitään sanalla "Healthy", joten ohjataan se kategoriaan
+      if (query === 'Healthy') {
+          url = `${BASE_URL}/filter.php?c=Vegetarian`; // Tai 'Seafood', 'Chicken' jne.
+      } else {
+          url = `${BASE_URL}/search.php?s=${query}`;
+      }
+  } else if (filter && filter !== 'All') {
+      // Kartoitetaan sovelluksen filtterit TheMealDB:n kategorioihin
+      let category = 'Chicken'; 
+      if (filter === 'Breakfast') category = 'Breakfast';
+      if (filter === 'Vegan') category = 'Vegetarian';
+      if (filter === 'Low Calorie') category = 'Seafood'; // Arvio
+      if (filter === 'Quick (< 30m)') category = 'Pasta'; // Arvio
+      
+      url = `${BASE_URL}/filter.php?c=${category}`;
+  } else {
+      url = `${BASE_URL}/search.php?s=chicken`; 
+  }
 
   try {
-    // 2. FIXED: Use only the apiUrl variable
-    const response = await fetch(apiUrl);
-    
+    const response = await fetch(url);
     const data = await response.json();
 
-    if (!data.results) return [];
+    if (!data.meals) return [];
 
-    return data.results.map((item: ApiSearchResultItem) => ({
-      id: item.id,
-      title: item.title,
-      image: item.image,
-      readyInMinutes: item.readyInMinutes,
-      servings: item.servings,
-      sourceName: 'Spoonacular'
+    // Muunnetaan TheMealDB:n data meidän Recipe-muotoon
+    return data.meals.map((item: ApiMealItem) => ({
+      id: item.idMeal,
+      title: item.strMeal,
+      image: item.strMealThumb,
+      readyInMinutes: getRandomTime(), // Generoitu tieto
+      servings: getRandomServings(),   // Generoitu tieto
+      sourceName: 'TheMealDB'
     }));
+
   } catch (error) {
     console.error('Error fetching recipes:', error);
     return [];
   }
 };
 
-// Get Single Recipe Details
+// Yksittäisen reseptin haku
 export const getRecipeById = async (id: string): Promise<Recipe | undefined> => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/${id}/information?apiKey=${API_KEY}&includeNutrition=false`
-    );
-    const item = await response.json();
+    const response = await fetch(`${BASE_URL}/lookup.php?i=${id}`);
+    const data = await response.json();
 
-    if (!item) return undefined;
+    if (!data.meals || data.meals.length === 0) return undefined;
+
+    const item = data.meals[0];
+
+    // TheMealDB palauttaa ainekset erillisinä kenttinä (strIngredient1, strIngredient2...)
+    // Kerätään ne siistiksi listaksi
+    const ingredients: Ingredient[] = [];
+    for (let i = 1; i <= 20; i++) {
+        const ingName = item[`strIngredient${i}`];
+        const ingMeasure = item[`strMeasure${i}`];
+        
+        if (ingName && ingName.trim() !== "") {
+            ingredients.push({
+                original: `${ingMeasure} ${ingName}`,
+                name: ingName,
+                amount: 1, // Ei tarkkaa määrää datassa helposti saatavilla
+                unit: ''
+            });
+        } else {
+            break; // Ei enää aineksia
+        }
+    }
 
     return {
-      id: item.id,
-      title: item.title,
-      image: item.image,
-      readyInMinutes: item.readyInMinutes,
-      servings: item.servings,
-      sourceName: item.sourceName,
-      summary: item.summary,
-      instructions: item.instructions, 
-      // FIX: Define 'ing' type as ApiIngredientItem
-      extendedIngredients: item.extendedIngredients.map((ing: ApiIngredientItem) => ({
-        id: ing.id,
-        original: ing.original,
-        name: ing.name,
-        amount: ing.amount,
-        unit: ing.unit
-      }))
+      id: item.idMeal,
+      title: item.strMeal,
+      image: item.strMealThumb,
+      readyInMinutes: getRandomTime(),
+      servings: getRandomServings(),
+      sourceName: 'TheMealDB',
+      summary: `Category: ${item.strCategory}, Area: ${item.strArea}`,
+      // Muutetaan rivinvaihdot HTML-breakeiksi luettavuuden vuoksi
+      instructions: item.strInstructions ? item.strInstructions.replace(/\r\n/g, '<br /><br />') : 'No instructions.',
+      extendedIngredients: ingredients
     };
+
   } catch (error) {
     console.error('Error fetching recipe details:', error);
     return undefined;

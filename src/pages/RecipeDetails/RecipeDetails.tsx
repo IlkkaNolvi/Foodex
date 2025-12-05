@@ -5,7 +5,8 @@ import {
   IonList, useIonToast, useIonRouter, IonModal, IonSelect, IonSelectOption 
 } from '@ionic/react';
 import { useParams } from 'react-router-dom';
-import { timeOutline, restaurantOutline, heartOutline, calendarOutline, flameOutline, closeOutline } from 'ionicons/icons';
+// LISÄTTY: mapOutline importteihin
+import { timeOutline, restaurantOutline, heartOutline, calendarOutline, flameOutline, closeOutline, mapOutline } from 'ionicons/icons';
 import { getRecipeById } from '../../services/recipeService';
 import { addMealToPlan } from '../../services/plannerService';
 import { Recipe } from '../../interfaces/recipe';
@@ -18,12 +19,12 @@ const RecipeDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [presentToast] = useIonToast();
 
-  // --- MODAL STATE ---
+  // --- MODAALIN TILAT ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState(0); // 0 = Tänään
   const [selectedSlot, setSelectedSlot] = useState<'breakfast' | 'lunch' | 'dinner'>('lunch');
 
-  // Generate day options for the dropdown (Today, Tomorrow, etc.)
+  // Generoi päivät valintalistaan (Tänään, Huomenna...)
   const dayOptions = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i);
@@ -48,12 +49,12 @@ const RecipeDetail: React.FC = () => {
       id: Date.now().toString(),
       recipeId: recipe.id,
       title: recipe.title,
-      calories: 450, // Spoonacular free API doesn't provide specific calories here, using an estimate
-      dayIndex: selectedDay, // DAY SELECTED BY USER
-      slot: selectedSlot     // MEAL SLOT SELECTED BY USER
+      calories: 450, 
+      dayIndex: selectedDay, 
+      slot: selectedSlot     
     });
 
-    setIsModalOpen(false); // Close the modal
+    setIsModalOpen(false); 
 
     presentToast({
       message: 'Added to Planner!',
@@ -62,7 +63,6 @@ const RecipeDetail: React.FC = () => {
       position: 'top'
     });
     
-    // Redirect to Planner tab to show the added meal
     setTimeout(() => {
         router.push('/tabs/tab3');
     }, 1000);
@@ -70,6 +70,12 @@ const RecipeDetail: React.FC = () => {
 
   const addToFavorites = () => {
     presentToast({ message: 'Added to Favorites!', duration: 2000, icon: heartOutline, color: 'danger', position: 'top' });
+  };
+
+  // UUSI FUNKTIO: Avaa kartan hakusanalla "grocery store"
+  const openMap = () => {
+    // Tämä URL avaa Google Mapsin (tai selaimen) ja etsii lähimmät ruokakaupat
+    window.open('https://www.google.com/maps/search/grocery+store/', '_blank');
   };
 
   if (loading) return <IonPage><IonContent className="ion-text-center"><div style={{marginTop: '50%'}}><IonSpinner /></div></IonContent></IonPage>;
@@ -95,16 +101,22 @@ const RecipeDetail: React.FC = () => {
           </div>
 
           <div className="action-buttons">
+             {/* Favorite Button */}
              <IonButton className="action-btn" color="medium" fill="outline" onClick={addToFavorites}>
-                <IonIcon icon={heartOutline} slot="start" /> Favorite
+                <IonIcon icon={heartOutline} />
              </IonButton>
-             {/* OPEN MODAL ON CLICK */}
-             <IonButton className="action-btn" color="primary" onClick={() => setIsModalOpen(true)}>
+             
+             {/* UUSI NAPPI: Find Stores */}
+             <IonButton className="action-btn" color="secondary" fill="outline" onClick={openMap}>
+                <IonIcon icon={mapOutline} />
+             </IonButton>
+
+             {/* Add to Plan Button (leveämpi) */}
+             <IonButton className="action-btn" color="primary" onClick={() => setIsModalOpen(true)} style={{flex: 2}}>
                 <IonIcon icon={calendarOutline} slot="start" /> Add to Plan
              </IonButton>
           </div>
 
-          {/* ... Ingredients and Instructions ... */}
           <h2 className="section-header">Ingredients</h2>
           <IonList lines="none">
             {recipe.extendedIngredients?.map((ing, index) => (
@@ -113,6 +125,7 @@ const RecipeDetail: React.FC = () => {
               </IonItem>
             ))}
           </IonList>
+          
           <h2 className="section-header">Instructions</h2>
           <div className="instructions-text" dangerouslySetInnerHTML={{ __html: recipe.instructions || 'No instructions provided.' }} />
           <div style={{ height: '50px' }}></div>
