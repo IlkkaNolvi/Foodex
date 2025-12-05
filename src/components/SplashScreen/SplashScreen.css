@@ -1,0 +1,55 @@
+.splash-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--ion-background-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* MUUTOS: Logo on nyt isompi (oli 150px, nyt 240px) */
+.splash-logo {
+  width: 240px; 
+  max-width: 80%; /* Varmistaa ettei mene yli pienellä ruudulla */
+  height: auto;
+  margin-bottom: 2rem;
+  animation: scaleIn 0.5s ease-out;
+}
+
+.splash-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.splash-subtitle {
+  font-size: 16px;
+  color: var(--ion-color-medium);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+/* MUUTOS: Painikkeen kontti on kapeampi (oli 280px, nyt 200px) */
+.splash-button-container {
+  width: 100%;
+  max-width: 200px; 
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}

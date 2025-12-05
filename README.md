@@ -8,6 +8,11 @@ Foodex is a modern mobile application for recipe discovery, meal planning, and c
 
 The application consists of several main sections and sub-features:
 
+### Splash Screen
+- Welcome: Stylish entry screen featuring a large Foodex logo and tagline.
+- Interaction: "Ready to Cook!" button to dismiss the splash screen and transition to the main application.
+- Animation: Smooth entrance animations for UI elements.
+
 ### Authentication (Login & Signup)
 - User account creation and login (Firebase Auth).
 - Email-based authentication.
@@ -83,7 +88,10 @@ The app will open at http://localhost:8100.
 ---
 
 ##📂 Project Structure
-src/pages/
+
+- src/components - Reusable UI components (New: SplashScreen)
+
+- src/pages/
 
 - Login/, Signup/ - Authentication
 
