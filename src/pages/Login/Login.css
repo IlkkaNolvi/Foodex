@@ -1,14 +1,20 @@
-.auth-content {
-  /* Centers content vertically and horizontally */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 20px;
-  --background: #ffffff; /* Ensure white background as per design */
+/* IonContent tausta ja tekstin väri */
+ion-content {
+  --background: #fff;
+  color: #000;
 }
 
+/* Pääkontaineri login-sivulle */
+.auth-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* keskittää pystysuunnassa */
+  align-items: center;       /* keskittää vaakasuunnassa */
+  height: 100%;
+  padding: 20px;
+}
+
+/* Logo */
 .logo-container {
   margin-bottom: 30px;
   text-align: center;
@@ -19,6 +25,7 @@
   height: auto;
 }
 
+/* Otsikko */
 .header-title {
   font-size: 24px;
   font-weight: bold;
@@ -27,51 +34,53 @@
   text-align: center;
 }
 
-/* Styling for the rounded input fields based on prototype */
+/* Input-kentät */
 .custom-input {
   --background: #ffffff;
   --color: #000000;
   --placeholder-color: #666666;
   --border-color: #000000;
-  --border-radius: 25px; /* Heavily rounded corners */
+  --border-radius: 25px; /* pyöristetyt kulmat */
   --border-width: 1px;
   --border-style: solid;
   margin-bottom: 15px;
-  /* Internal padding for text */
   --padding-start: 15px;
   --padding-end: 15px;
 }
 
-/* Styling for the main action button (Foodex Green) */
+/* Login-painike */
 .login-button {
   margin-top: 10px;
   margin-bottom: 20px;
   --border-radius: 25px;
   font-weight: bold;
   height: 50px;
-  /* Color comes from --ion-color-primary in variables.css */
+  /* väri tulee --ion-color-primary muuttujasta */
 }
 
+/* Aputeksti */
 .helper-text {
   text-align: center;
   font-size: 14px;
   color: #666666;
 }
 
+/* Linkit */
 .link-text {
-  color: var(--ion-color-primary); /* Use brand color for links */
+  color: var(--ion-color-primary);
   font-weight: bold;
   text-decoration: none;
 }
 
 .skip-link {
-    display: block;
-    text-align: center;
-    margin-top: 30px;
-    color: #666666;
-    text-decoration: none;
+  display: block;
+  text-align: center;
+  margin-top: 30px;
+  color: #666666;
+  text-decoration: none;
 }
 
+/* Rajattu laatikko login-sisällölle */
 .auth-box {
   border: 1px solid #000000;   /* musta viiva */
   border-radius: 10px;         /* kulmien pyöristys */
