@@ -9,4 +9,13 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-contrast-rgb: 0, 0, 0;
   --ion-color-primary-shade: #a9cf92;
   --ion-color-primary-tint: #c6edaf;
+
+
+  /** danger */
+  --ion-color-danger: #ff5722;
+  --ion-color-danger-rgb: 255, 87, 34;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #e04c1e;
+  --ion-color-danger-tint: #ff6838;
 }
