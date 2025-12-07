@@ -19,22 +19,32 @@ const Tab1: React.FC = () => {
   
   // --- CALORIES ---
   const [eaten, setEaten] = useState(0);
-  const goal = 2000;
+  
+  // MUUTOS 1: Tavoite on nyt state-muuttuja, ei vakio
+  const [goal, setGoal] = useState(2000);
 
   // --- WEATHER ---
   const [weatherTemp, setWeatherTemp] = useState<number | null>(null);
   const [city, setCity] = useState('Locating...');
 
-  // 1. Get calories ALWAYS when the page is displayed (if the user added food)
+  // 1. Päivitetään kalorit ja tavoite AINA kun sivu tulee näkyviin
   useIonViewWillEnter(() => {
+    // A. Haetaan syödyt kalorit
     const allMeals = getPlannedMeals();
-    // Only retrieve TODAY'S meals (dayIndex 0 = today)
-    const todaysMeals = allMeals.filter(m => m.dayIndex === 0);
+    const todaysMeals = allMeals.filter(m => m.dayIndex === 0); // 0 = tänään
     const total = todaysMeals.reduce((sum, item) => sum + item.calories, 0);
     setEaten(total);
+
+    // B. MUUTOS 2: Haetaan tavoite muistista
+    const savedGoal = localStorage.getItem('foodex_calorie_goal');
+    if (savedGoal) {
+      setGoal(parseInt(savedGoal, 10));
+    } else {
+      setGoal(2000); // Oletus jos ei ole tallennettu
+    }
   });
 
-  // 2. Get weather and recommendations (only once at the beginning)
+  // 2. Haetaan sää ja suositukset (vain kerran alussa)
   useEffect(() => {
     const initData = async () => {
       // Recommendations
@@ -51,7 +61,7 @@ const Tab1: React.FC = () => {
             const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
             const data = await res.json();
             setWeatherTemp(Math.round(data.current_weather.temperature));
-            setCity('Own location'); // The correct city name would require Google Maps API (paid)
+            setCity('Own location'); 
           } catch (e) {
             console.error("Weather error", e);
             setCity('Helsinki'); 
@@ -96,6 +106,7 @@ const Tab1: React.FC = () => {
             </div>
             <div className="calorie-stats">
               <div className="stat-box"><strong>{eaten}</strong><span>Eaten</span></div>
+              {/* Tavoite päivittyy nyt dynaamisesti */}
               <div className="stat-box"><strong>{goal}</strong><span>Goal</span></div>
             </div>
           </div>

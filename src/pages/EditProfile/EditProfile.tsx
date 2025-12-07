@@ -6,21 +6,29 @@ import {
 
 const EditProfile: React.FC = () => {
   const [name, setName] = useState('');
-  const [calorieGoal, setCalorieGoal] = useState('2000');
+  // '2000' on tässä vain oletusarvo, jos käyttäjä ei ole koskaan asettanut tavoitetta.
+  const [calorieGoal, setCalorieGoal] = useState('2000'); 
   const [presentToast] = useIonToast();
 
   useEffect(() => {
-    // Load saved settings
+    // Ladataan tallennetut asetukset kun sivu aukeaa
     const savedName = localStorage.getItem('foodex_user_name');
     const savedGoal = localStorage.getItem('foodex_calorie_goal');
+    
     if (savedName) setName(savedName);
     if (savedGoal) setCalorieGoal(savedGoal);
   }, []);
 
   const handleSave = () => {
+    // 1. Tallennetaan tiedot muistiin
     localStorage.setItem('foodex_user_name', name);
     localStorage.setItem('foodex_calorie_goal', calorieGoal);
     
+    // 2. TÄRKEÄÄ: Lähetetään tapahtuma (event), jotta Tab1 (Home) 
+    // tietää päivittää kalorimittarin heti ilman refreshiä.
+    window.dispatchEvent(new Event('foodex_settings_changed'));
+    
+    // 3. Näytetään ilmoitus käyttäjälle
     presentToast({
       message: 'Profile updated successfully!',
       duration: 2000,
@@ -46,7 +54,7 @@ const EditProfile: React.FC = () => {
           <IonInput 
             value={name} 
             placeholder="Enter your name" 
-            onIonChange={e => setName(e.detail.value!)} 
+            onIonInput={e => setName(e.detail.value!)} 
           />
         </IonItem>
 
@@ -56,11 +64,21 @@ const EditProfile: React.FC = () => {
             type="number" 
             value={calorieGoal} 
             placeholder="2000" 
-            onIonChange={e => setCalorieGoal(e.detail.value!)} 
+            // Käytetään onIonInput mieluummin kuin onIonChange reaaliaikaiseen päivitykseen
+            onIonInput={e => setCalorieGoal(e.detail.value!)} 
           />
         </IonItem>
 
-        <IonButton expand="block" onClick={handleSave} className="ion-margin-top" style={{'--background': 'var(--ion-color-primary)', fontWeight: 'bold', color: 'black'}}>
+        <IonButton 
+          expand="block" 
+          onClick={handleSave} 
+          className="ion-margin-top" 
+          style={{
+            '--background': 'var(--ion-color-primary)', 
+            fontWeight: 'bold', 
+            color: 'black' // Tai 'white' riippuen teemastasi
+          }}
+        >
           Save Changes
         </IonButton>
       </IonContent>

@@ -2,7 +2,7 @@ export interface PlannerItem {
   id: string;      // Unique ID for the saved item
   recipeId: number | string;
   title: string;
-  calories: number; // Spoonacular free version doesn't provide exact calories easily, using estimate
+  calories: number;
   dayIndex: number; // 0=Today, 1=Tomorrow...
   slot: 'breakfast' | 'lunch' | 'dinner';
 }
