@@ -19,6 +19,7 @@ const Favorites: React.FC = () => {
 
   const handleDelete = (e: React.MouseEvent, id: string | number) => {
     e.stopPropagation(); // Prevent clicking the item itself
+    e.preventDefault(); // ignore the default navigation behavior of the parent element
     removeFavorite(id);
     setFavorites(getFavorites()); // Refresh list
     presentToast({ message: 'Removed from favorites', duration: 1500 });
