@@ -92,7 +92,8 @@ const Signup: React.FC = () => {
           <div className="logo-container">
              <img src="/assets/logo.png" alt="Foodex Logo" className="logo-img logo-small" style={{maxWidth: '150px'}} />
           </div>
-
+          {/* Mustalla viivalla rajattu boksi */}
+          <div className="auth-box">
           <h1 className="header-title">Sign up page</h1>
 
           <IonInput
@@ -130,6 +131,7 @@ const Signup: React.FC = () => {
           >
             Sign up
           </IonButton>
+        </div>
         </div>
 
         <IonLoading isOpen={loading} message={'Creating account...'} />
