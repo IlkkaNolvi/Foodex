@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
 import {
-  IonContent, IonPage, IonIcon, IonList, IonItem, IonLabel, IonButton,
-  useIonRouter, useIonToast, useIonViewWillEnter
+  IonContent, IonPage, IonIcon, IonList, IonItem, IonLabel, IonButton, useIonToast, useIonViewWillEnter
 } from '@ionic/react';
 import {
   personOutline, settingsOutline, heartOutline, informationCircleOutline,
@@ -14,7 +13,7 @@ import { getPlannedMeals } from '../services/plannerService'; // Importataan ate
 import './Profile.css';
 
 const Profile: React.FC = () => {
-  const router = useIonRouter();
+ 
   const [presentToast] = useIonToast();
   const [user, setUser] = useState<User | null>(null);
   
@@ -77,7 +76,7 @@ const Profile: React.FC = () => {
     try {
       await signOut(auth);
       presentToast({ message: 'Logged out successfully', duration: 2000, color: 'dark' });
-      router.push('/login', 'back', 'replace');
+      window.location.href = '/login';
     } catch (error) {
       console.error('Logout error', error);
     }
