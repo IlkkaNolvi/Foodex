@@ -6,10 +6,11 @@ import {
 } from '@ionic/react';
 import { useParams } from 'react-router-dom';
 // LISÄTTY: mapOutline importteihin
-import { timeOutline, restaurantOutline, heartOutline, calendarOutline, flameOutline, closeOutline, mapOutline } from 'ionicons/icons';
+import { timeOutline, restaurantOutline, heartOutline, heart, calendarOutline, flameOutline, closeOutline, mapOutline } from 'ionicons/icons';
 import { getRecipeById } from '../../services/recipeService';
 import { addMealToPlan } from '../../services/plannerService';
 import { Recipe } from '../../interfaces/recipe';
+import { isFavorite as checkIsFavorite, removeFavorite, addFavorite } from '../../services/favoritesService';
 import './RecipeDetails.css';
 
 const RecipeDetail: React.FC = () => {
@@ -17,6 +18,7 @@ const RecipeDetail: React.FC = () => {
   const router = useIonRouter();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [presentToast] = useIonToast();
 
   // --- MODAALIN TILAT ---
@@ -33,14 +35,18 @@ const RecipeDetail: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchRecipe = async () => {
-      setLoading(true);
-      const data = await getRecipeById(id);
-      if (data) setRecipe(data);
-      setLoading(false);
-    };
-    fetchRecipe();
-  }, [id]);
+        const fetchRecipe = async () => {
+            setLoading(true);
+            const data = await getRecipeById(id);
+            if (data) {
+                setRecipe(data);
+                // SYNCHRONOUS CHECK: Check status immediately after fetching recipe data
+                setIsFavorite(checkIsFavorite(id)); 
+            }
+            setLoading(false);
+        };
+        fetchRecipe();
+    }, [id]);
 
   const handleConfirmAdd = () => {
     if (!recipe) return;
@@ -68,8 +74,34 @@ const RecipeDetail: React.FC = () => {
     }, 1000);
   };
 
-  const addToFavorites = () => {
-    presentToast({ message: 'Added to Favorites!', duration: 2000, icon: heartOutline, color: 'danger', position: 'top' });
+  // Uusi funktio -> ensimmäisellä klikkauksella lisää suosikkeihin ja toisella poistaa
+ const toggleFavorites = () => {
+    if (!recipe) return;
+
+    if (isFavorite) {
+      // It IS a favorite, so remove it
+      removeFavorite(recipe.id);
+      setIsFavorite(false);
+      presentToast({ 
+        message: 'Removed from Favorites.', 
+        duration: 2000, 
+        icon: heartOutline, 
+        color: 'medium', 
+        position: 'top' 
+      });
+    } else {
+      // It is NOT a favorite, so add it
+      addFavorite(recipe);
+      setIsFavorite(true);
+      
+      presentToast({ 
+        message: 'Added to Favorites!', 
+        duration: 2000, 
+        icon: heart, 
+        color: 'primary', 
+        position: 'top' 
+      });
+    }
   };
 
   // UUSI FUNKTIO: Avaa kartan hakusanalla "grocery store"
@@ -101,9 +133,16 @@ const RecipeDetail: React.FC = () => {
           </div>
 
           <div className="action-buttons">
-             {/* Favorite Button */}
-             <IonButton className="action-btn" color="medium" fill="outline" onClick={addToFavorites}>
-                <IonIcon icon={heartOutline} />
+           {/* Favorite Button */}
+             <IonButton 
+                className="action-btn" 
+                // 1. DYNAMIC COLOR: Changes to 'primary' if favorited
+                color={isFavorite ? 'primary' : 'medium'} 
+                // 2. DYNAMIC FILL: Changes to 'solid' fill if favorited
+                fill={isFavorite ? 'solid' : 'outline'}
+                onClick={toggleFavorites}>
+                {/* 4. DYNAMIC ICON: Changes to filled heart if favorited */}
+                <IonIcon icon={isFavorite ? heart : heartOutline} />
              </IonButton>
              
              {/* UUSI NAPPI: Find Stores */}
