@@ -87,9 +87,9 @@ The app will open at http://localhost:8100.
 
 ---
 
-##📂 Project Structure
+## 📂 Project Structure
 
-- src/components - Reusable UI components (New: SplashScreen)
+- src/components - Reusable UI components, SplashScreen
 
 - src/pages/
 
